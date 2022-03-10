@@ -1,10 +1,13 @@
 import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchsummary import summary
 
 import dataset
 import model_creator
 
 
-# check for CUDA availabilitu
+# check for CUDA availability
 if torch.cuda.is_available():
     print('CUDA is available, setting device to CUDA')
 # set device to  CUDA for training
@@ -34,11 +37,19 @@ train_loader, test_loader = dataset.get_dataloaders(DATASETDIR, INPUT_SIZE, BATC
 
 # Create the model
 model = model_creator.get_model()
+summary(model, (3, INPUT_SIZE, INPUT_SIZE), device='cpu')
+#summary(model, input_size=(3, INPUT_SIZE, INPUT_SIZE))
+
+#Send model to GPU
+model.to(device)
+
+#Define Loss function and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 
 
-### To DO the changes to PYTORCH (below)
-
+#To do (PyTorch)
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 mcp_save = ModelCheckpoint('.mdl_wts.hdf5', save_best_only=True, monitor='val_accuracy', mode='max')
