@@ -70,7 +70,7 @@ In order to make our project reproductible, we have make use of the python packa
 This is an example of how to list things you need to use the software and how to install them.
 * conda
   ```sh
-  conda env create -f conda_env.yaml
+  conda env create -f environment.yml
   ```
 
 ### Installation
