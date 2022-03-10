@@ -151,7 +151,7 @@ Jiaqiang Ye Zhu - jiaqiang.ye@autonoma.cat
 Sergi Vidal - servidal95@gmail.com 
 
 
-Project Link: [https://github.com/MCV-2021-M1-Project/Team3](https://github.com/MCV-2021-M1-Project/Team3)
+Project Link: [https://github.com/servidal/M5-T7-Project](https://github.com/servidal/M5-T7-Project)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
