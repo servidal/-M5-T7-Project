@@ -156,6 +156,24 @@ Project Link: [https://github.com/servidal/M5-T7-Project](https://github.com/ser
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+<!-- Slides -->
+### Slides
+
+* [Week1](https://docs.google.com/presentation/d/1OXal9cwBLejCIEKcPWBakn3RBfER9QyxAbUjTJiT3dc/edit#slide=id.g11444959b9f_0_4)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- Slides -->
+### Reports
+
+* [Report 1](https://www.overleaf.com/project/622a7cbe64b3754353ee07df)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
