@@ -38,7 +38,6 @@ train_loader, test_loader = dataset.get_dataloaders(DATASETDIR, INPUT_SIZE, BATC
 # Create the model
 model = model_creator.get_model()
 summary(model, (3, INPUT_SIZE, INPUT_SIZE), device='cpu')
-#summary(model, input_size=(3, INPUT_SIZE, INPUT_SIZE))
 
 #Send model to GPU
 model.to(device)
