@@ -42,6 +42,20 @@ train_loader, test_loader = dataset.get_dataloaders(DATASETDIR, INPUT_SIZE, BATC
 
 # Create the model
 model = model_creator.Net(kernel_size=3, padding="same")
+
+# Defining a method for initialization of linear weights
+# The initialization will be applied to all linear layers
+# irrespective of their activation function
+ 
+def init_weights(m):
+    if type(m) == nn.Linear:
+        torch.nn.init.xavier_normal_(m.weight)
+    if type(m) == nn.Conv2d:
+        torch.nn.init.xavier_normal_(m.weight)
+ 
+# Applying it to our net
+model.apply(init_weights)
+
 #summary(model, (3, INPUT_SIZE, INPUT_SIZE), device='cpu')
 
 #Send model to GPU
@@ -91,12 +105,12 @@ def train_epoch(model, train_loader, optimizer, criterion, epoch, scheduler):   
         accs.append(acc) #save the accuracy value in a list of accuracies
         
 
-        if batch_idx >= len(train_loader):
-            print('Train Epoch: {} \tLR: {} \tAverage Loss: {:.4f}\tAverage Acc: {:.2f} %'.format(
-                epoch, lr , np.mean(losses), np.mean(accs)))
-            
-            train_writer.add_scalar('Loss', np.mean(losses), epoch) #log training loss for one epoch to Tensorboard
-            train_writer.add_scalar('Acc', np.mean(accs), epoch)    #log training accuracy for one epoch to Tensorboard
+        #if batch_idx >= len(train_loader):
+    print('Train Epoch: {} \tLR: {} \tAverage Loss: {:.4f}\tAverage Acc: {:.2f} %'.format(
+        epoch, lr , np.mean(losses), np.mean(accs)))
+
+    train_writer.add_scalar('Loss', np.mean(losses), epoch) #log training loss for one epoch to Tensorboard
+    train_writer.add_scalar('Acc', np.mean(accs), epoch)    #log training accuracy for one epoch to Tensorboard
 
     return np.mean(losses), np.mean(accs)
 
