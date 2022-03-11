@@ -4,7 +4,7 @@ from time import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchsummary import summary
+#from torchsummary import summary
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 
@@ -41,8 +41,8 @@ INPUT_SIZE = 64
 train_loader, test_loader = dataset.get_dataloaders(DATASETDIR, INPUT_SIZE, BATCH_SIZE)
 
 # Create the model
-model = model_creator.get_model()
-summary(model, (3, INPUT_SIZE, INPUT_SIZE), device='cpu')
+model = model_creator.Net(kernel_size=3, padding="same")
+#summary(model, (3, INPUT_SIZE, INPUT_SIZE), device='cpu')
 
 #Send model to GPU
 model.to(device)
