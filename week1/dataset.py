@@ -29,6 +29,9 @@ def get_dataloaders(dataset_dir, input_size, batch_size, num_workers=4):
     
     #data transforms for trainig and testing
     train_transform = transforms.Compose([
+                        transforms.RandomHorizontalFlip(p=0.5),
+                        transforms.RandomRotation(degrees=20),
+                        transforms.RandomAffine(translate=(0, 0.3)),
                         transforms.Resize((input_size, input_size)),
                         transforms.ToTensor(),
                         transforms.Normalize(mean = mean, std = std)])
