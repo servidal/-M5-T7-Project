@@ -146,7 +146,7 @@ Marcelo Sanchez Ortega - marcelosanchezortega@gmail.com
 
 Manel Guzmán Castellana - manelguz7@gmail.com
 
-Jiaqiang Ye Zhu - jiaqiang.ye@autonoma.cat
+Jiaqiang Ye Zhu - jiaqiang.ye@autonoma.cat 
 
 Sergi Vidal - servidal95@gmail.com 
 
@@ -157,7 +157,7 @@ Project Link: [https://github.com/servidal/M5-T7-Project](https://github.com/ser
 
 
 <!-- Slides -->
-### Slides
+### Slides 
 
 * [Week1](https://docs.google.com/presentation/d/1OXal9cwBLejCIEKcPWBakn3RBfER9QyxAbUjTJiT3dc/edit#slide=id.g11444959b9f_0_4)
 
