@@ -10,7 +10,7 @@ def get_dataloaders(dataset_dir, input_size, batch_size, num_workers=4):
     """
     Get train and test dataloaders from the dataset
     """
-    def read_pil_image(img_path, height, width):
+    def read_pil_image(img_path, height, width): 
         with open(img_path, 'rb') as f:
             return np.array(Image.open(f).convert('RGB').resize((width, height)))
 
