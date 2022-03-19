@@ -83,10 +83,11 @@ if __name__ == "__main__":
     os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
 
     DATASET_PATH= '/home/group07/M5-T7-Project/KITTI-MOTS'
-
+    CLASSES = ['Cars', 'Pedestrian']
+    
     for d in ['train', 'test']:
         DatasetCatalog.register("kitti_mots_" + d, lambda d= d: get_dataset_dicts(DATASET_PATH, d))
-        MetadataCatalog.get("kitti_mots_" + d).set(things_classes="cars,pedestrains")
+        MetadataCatalog.get("kitti_mots_" + d).set(things_classes=CLASSES)
 
     dataset="kitti_mots_"
 
@@ -99,7 +100,7 @@ if __name__ == "__main__":
     cfg.SOLVER.MAX_ITER = args.iter
     cfg.SOLVER.STEPS = []  # do not decay learning rate
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = args.batch   # faster, and good enough for the tutorial dataset (default: 512)
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(['Cars', 'Pedestrian'])
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(CLASSES)
 
     #Train
     trainer = DefaultTrainer(cfg)

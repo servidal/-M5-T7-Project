@@ -57,7 +57,7 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--model', type=str, default='faster_rcnn_X_101_32x8d_FPN_3x',
                         help='pre-trained model to run inference on KITTI-MOTS dataset')
 
-    parser.add_argument('--lr', type=float, default=0.0001,
+    parser.add_argument('--lr', type=float, default=0.05,
                         help='learning rate')
 
     parser.add_argument('--iter', type=int, default=100,
@@ -86,23 +86,24 @@ if __name__ == "__main__":
     os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
 
     DATASET_PATH= '/home/group07/M5-T7-Project/KITTI-MOTS'
-
+    CLASSES = ['Cars', 'Pedestrian']
+    
     for d in ['train', 'test']:
         DatasetCatalog.register("kitti_mots_" + d, lambda d= d: get_dataset_dicts(DATASET_PATH, d))
-        MetadataCatalog.get("kitti_mots_" + d).set(things_classes="cars,pedestrains")
+        MetadataCatalog.get("kitti_mots_" + d).set(things_classes=CLASSES)
 
     dataset="kitti_mots_"
 
     cfg.DATASETS.TRAIN = (dataset + 'train',)
     cfg.DATASETS.TEST = (dataset + 'test',)
-    cfg.DATALOADER.NUM_WORKERS = 2
+    cfg.DATALOADER.NUM_WORKERS = 4
     cfg.TEST.EVAL_PERIOD = 100
     cfg.SOLVER.IMS_PER_BATCH = 2
     cfg.SOLVER.BASE_LR = args.lr
     cfg.SOLVER.MAX_ITER = args.iter
     cfg.SOLVER.STEPS = []  # do not decay learning rate
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = args.batch   # faster, and good enough for the tutorial dataset (default: 512)
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(['Cars', 'Pedestrian'])
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(CLASSES)
 
     #Train
     trainer = DefaultTrainer(cfg)
