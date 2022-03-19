@@ -25,6 +25,7 @@ import argparse
 from detectron2.modeling import build_model
 from detectron2.checkpoint import DetectionCheckpointer
 
+from dataset import get_dataset_dicts
 
 def parse_args(args=sys.argv[1:]):
     parser = argparse.ArgumentParser()
