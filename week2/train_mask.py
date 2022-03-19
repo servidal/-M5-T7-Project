@@ -98,7 +98,7 @@ if __name__ == "__main__":
     cfg.DATASETS.TEST = (dataset + 'test',)
     cfg.DATALOADER.NUM_WORKERS = 2
     cfg.TEST.EVAL_PERIOD = 100
-    cfg.SOLVER.IMS_PER_BATCH = 2
+    cfg.SOLVER.IMS_PER_BATCH = 1
     cfg.SOLVER.BASE_LR = args.lr
     cfg.SOLVER.MAX_ITER = args.iter
     cfg.SOLVER.STEPS = []  # do not decay learning rate
