@@ -18,7 +18,7 @@ from detectron2.structures import BoxMode
 from detectron2.engine import DefaultTrainer, HookBase
 
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
-from detectron2.data import build_detection_test_loader, build_detection_train_loader
+from detectron2.data import build_detection_test_loader
 from detectron2.utils import comm
 from dataset import get_dataset_dicts
 
@@ -33,7 +33,7 @@ class ValidationLoss(HookBase):
         super().__init__()
         self.cfg = cfg.clone()
         self.cfg.DATASETS.TRAIN = cfg.DATASETS.TEST
-        self._loader = iter(build_detection_train_loader(self.cfg))
+        self._loader = iter(build_detection_test_loader(self.cfg))
 
     def after_step(self):
         data = next(self._loader)
@@ -53,7 +53,7 @@ class ValidationLoss(HookBase):
 def parse_args(args=sys.argv[1:]):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--model', type=str, default='faster_rcnn_R_50_FPN_3x',
+    parser.add_argument('--model', type=str, default='mask_rcnn_R_50_FPN_3x',
                         help='pre-trained model to run inference on KITTI-MOTS dataset')
 
     parser.add_argument('--lr', type=float, default=0.0001,
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     args = parse_args()
 
     #Model
-    model = 'COCO-Detection/' + args.model + '.yaml'
+    model = 'COCO-InstanceSegmentation/' + args.model + '.yaml'
     print('[INFO] Using model: ', model)
 
     cfg = get_cfg()
@@ -105,10 +105,10 @@ if __name__ == "__main__":
 
     #Train
     trainer = DefaultTrainer(cfg)
-    #val_loss = ValidationLoss(cfg)
-    #trainer.register_hooks([val_loss])
+    val_loss = ValidationLoss(cfg)
+    trainer.register_hooks([val_loss])
     # swap the order of PeriodicWriter and ValidationLossl
-    #trainer._hooks = trainer._hooks[:-2] + trainer._hooks[-2:][::-1]
+    trainer._hooks = trainer._hooks[:-2] + trainer._hooks[-2:][::-1]
     trainer.resume_or_load(resume=False)
     trainer.train()
 
