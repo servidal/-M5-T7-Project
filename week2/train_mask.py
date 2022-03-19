@@ -12,18 +12,21 @@ from detectron2 import model_zoo
 from detectron2.engine import DefaultPredictor
 from detectron2.config import get_cfg
 from detectron2.utils.visualizer import Visualizer
-from detectron2.data import MetadataCatalog, DatasetCatalog, build_detection_train_loader
+from detectron2.data import MetadataCatalog, DatasetCatalog
+
 from detectron2.structures import BoxMode
 from detectron2.engine import DefaultTrainer, HookBase
-from detectron2.evaluation import COCOEvaluator, inference_on_dataset
-from detectron2.utils import comm
-from detectron2.modeling import build_model
-from detectron2.checkpoint import DetectionCheckpointer
 
+from detectron2.evaluation import COCOEvaluator, inference_on_dataset
+from detectron2.data import build_detection_test_loader, build_detection_train_loader
+from detectron2.utils import comm
 from dataset import get_dataset_dicts
 
 import argparse
 import torch
+
+from detectron2.modeling import build_model
+from detectron2.checkpoint import DetectionCheckpointer
 
 # ValidationLoss
 class ValidationLoss(HookBase):
@@ -60,7 +63,7 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--iter', type=int, default=100,
                         help='max iterations (epochs)')
 
-    parser.add_argument('--batch', type=int, default=512,
+    parser.add_argument('--batch', type=int, default=32,
                         help='batch size')
 
     return parser.parse_args(args)
@@ -95,7 +98,7 @@ if __name__ == "__main__":
     cfg.DATASETS.TEST = (dataset + 'test',)
     cfg.DATALOADER.NUM_WORKERS = 2
     cfg.TEST.EVAL_PERIOD = 100
-    cfg.SOLVER.IMS_PER_BATCH = 1
+    cfg.SOLVER.IMS_PER_BATCH = 2
     cfg.SOLVER.BASE_LR = args.lr
     cfg.SOLVER.MAX_ITER = args.iter
     cfg.SOLVER.STEPS = []  # do not decay learning rate
@@ -115,6 +118,7 @@ if __name__ == "__main__":
     cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")  # path to the model we just trained
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  # set the testing threshold for this model
 
+     
     ### MAP #####
     #We can also evaluate its performance using AP metric implemented in COCO API.
     evaluator = COCOEvaluator(dataset + 'test', cfg, False, output_dir=cfg.OUTPUT_DIR)
@@ -122,4 +126,4 @@ if __name__ == "__main__":
     print('---------------------------------------------------------')
     print(model)
     print(inference_on_dataset(trainer.model, val_loader, evaluator))
-    print('---------------------------------------------------------')
+    print('---------------------------------------------------------')   
