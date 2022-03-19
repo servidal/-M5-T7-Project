@@ -57,13 +57,13 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--model', type=str, default='mask_rcnn_R_50_FPN_3x',
                         help='pre-trained model to run inference on KITTI-MOTS dataset')
 
-    parser.add_argument('--lr', type=float, default=0.0001,
+    parser.add_argument('--lr', type=float, default=0.001,
                         help='learning rate')
 
-    parser.add_argument('--iter', type=int, default=1000,
+    parser.add_argument('--iter', type=int, default=300,
                         help='max iterations (epochs)')
 
-    parser.add_argument('--batch', type=int, default=512,
+    parser.add_argument('--batch', type=int, default=128,
                         help='batch size')
 
     return parser.parse_args(args)
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     cfg.SOLVER.MAX_ITER = args.iter
     cfg.SOLVER.STEPS = []  # do not decay learning rate
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = args.batch   # faster, and good enough for the tutorial dataset (default: 512)
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(CLASSES)
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2
 
     #Train
     trainer = DefaultTrainer(cfg)
