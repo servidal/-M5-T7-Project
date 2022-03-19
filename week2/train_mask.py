@@ -60,7 +60,7 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--iter', type=int, default=100,
                         help='max iterations (epochs)')
 
-    parser.add_argument('--batch', type=int, default=256,
+    parser.add_argument('--batch', type=int, default=512,
                         help='batch size')
 
     return parser.parse_args(args)
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     
     for d in ['train', 'test']:
         DatasetCatalog.register("kitti_mots_" + d, lambda d= d: get_dataset_dicts(DATASET_PATH, d))
-        MetadataCatalog.get("kitti_mots_" + d).set(things_classes=CLASSES)
+        MetadataCatalog.get("kitti_mots_" + d).set(thing_classes=CLASSES)
 
     dataset="kitti_mots_"
 

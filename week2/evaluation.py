@@ -30,7 +30,7 @@ model_ref = "faster_rcnn_X_101_32x8d_FPN_3x"
 model_path = 'COCO-Detection/' + model_ref + '.yaml'
 results_dir = '/home/group07/M5-T7-Project/week2/results/'
 DATASET_PATH = '/home/group07/M5-T7-Project/KITTI-MOTS'
-
+CLASSES = ['Cars', 'Pedestrian']
 print(model_path)
 
 # Run a pre-trained detectron2 model
@@ -47,7 +47,7 @@ cfg.OUTPUT_DIR = results_dir
 
 for d in ['train', 'test']:
     DatasetCatalog.register("kitti_mots_" + d, lambda d= d: get_dataset_dicts(DATASET_PATH, d))
-    MetadataCatalog.get("kitti_mots_" + d).set(things_classes="cars,pedestrains")
+    MetadataCatalog.get("kitti_mots_" + d).set(thing_classes=CLASSES)
 
 
 dataset="kitti_mots_"
@@ -57,7 +57,7 @@ dataset="kitti_mots_"
 cfg.DATASETS.TRAIN = (dataset + 'train',)
 cfg.DATASETS.TEST = (dataset + 'test',)
 cfg.DATALOADER.NUM_WORKERS = 2
-cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(2)
+cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(CLASSES)
 
 trainer = DefaultTrainer(cfg)
 trainer.resume_or_load(resume=False)
