@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     cfg.DATASETS.TRAIN = (dataset + 'train',)
     cfg.DATASETS.TEST = (dataset + 'test',)
-    cfg.DATALOADER.NUM_WORKERS = 4
+    cfg.DATALOADER.NUM_WORKERS = 2
     cfg.TEST.EVAL_PERIOD = 100
     cfg.SOLVER.IMS_PER_BATCH = 2
     cfg.SOLVER.BASE_LR = args.lr
