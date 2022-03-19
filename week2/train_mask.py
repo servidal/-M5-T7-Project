@@ -18,7 +18,7 @@ from detectron2.structures import BoxMode
 from detectron2.engine import DefaultTrainer, HookBase
 
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
-from detectron2.data import build_detection_test_loader
+from detectron2.data import build_detection_test_loader, build_detection_train_loader
 from detectron2.utils import comm
 from dataset import get_dataset_dicts
 
@@ -33,7 +33,7 @@ class ValidationLoss(HookBase):
         super().__init__()
         self.cfg = cfg.clone()
         self.cfg.DATASETS.TRAIN = cfg.DATASETS.TEST
-        self._loader = iter(build_detection_test_loader(self.cfg))
+        self._loader = iter(build_detection_train_loader(self.cfg))
 
     def after_step(self):
         data = next(self._loader)
@@ -59,7 +59,7 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--lr', type=float, default=0.0001,
                         help='learning rate')
 
-    parser.add_argument('--iter', type=int, default=2000,
+    parser.add_argument('--iter', type=int, default=100,
                         help='max iterations (epochs)')
 
     parser.add_argument('--batch', type=int, default=32,
