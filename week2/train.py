@@ -23,6 +23,7 @@ from detectron2.utils import comm
 from dataset import get_dataset_dicts
 
 import argparse
+import torch
 
 from detectron2.modeling import build_model
 from detectron2.checkpoint import DetectionCheckpointer

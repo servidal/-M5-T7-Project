@@ -12,20 +12,18 @@ from detectron2 import model_zoo
 from detectron2.engine import DefaultPredictor
 from detectron2.config import get_cfg
 from detectron2.utils.visualizer import Visualizer
-from detectron2.data import MetadataCatalog, DatasetCatalog
-
+from detectron2.data import MetadataCatalog, DatasetCatalog, build_detection_train_loader
 from detectron2.structures import BoxMode
 from detectron2.engine import DefaultTrainer, HookBase
-
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
-from detectron2.data import build_detection_test_loader, build_detection_train_loader
 from detectron2.utils import comm
+from detectron2.modeling import build_model
+from detectron2.checkpoint import DetectionCheckpointer
+
 from dataset import get_dataset_dicts
 
 import argparse
-
-from detectron2.modeling import build_model
-from detectron2.checkpoint import DetectionCheckpointer
+import torch
 
 # ValidationLoss
 class ValidationLoss(HookBase):
