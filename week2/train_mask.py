@@ -53,7 +53,7 @@ class ValidationLoss(HookBase):
 def parse_args(args=sys.argv[1:]):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--model', type=str, default='mask_rcnn_R_50_FPN_3x',
+    parser.add_argument('--model', type=str, default='faster_rcnn_X_101_32x8d_FPN_3x.yaml',
                         help='pre-trained model to run inference on KITTI-MOTS dataset')
 
     parser.add_argument('--lr', type=float, default=0.0001,
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     args = parse_args()
 
     #Model
-    model = 'COCO-InstanceSegmentation/' + args.model + '.yaml'
+    model = 'COCO-Detection/' + args.model + '.yaml'
     print('[INFO] Using model: ', model)
 
     cfg = get_cfg()
@@ -94,8 +94,8 @@ if __name__ == "__main__":
 
     cfg.DATASETS.TRAIN = (dataset + 'train',)
     cfg.DATASETS.TEST = (dataset + 'test',)
-    cfg.DATALOADER.NUM_WORKERS = 2
-
+    cfg.DATALOADER.NUM_WORKERS = 4
+    cfg.TEST.EVAL_PERIOD = 100
     cfg.SOLVER.IMS_PER_BATCH = 2
     cfg.SOLVER.BASE_LR = args.lr
     cfg.SOLVER.MAX_ITER = args.iter
