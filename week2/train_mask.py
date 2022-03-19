@@ -105,10 +105,10 @@ if __name__ == "__main__":
 
     #Train
     trainer = DefaultTrainer(cfg)
-    val_loss = ValidationLoss(cfg)
-    trainer.register_hooks([val_loss])
+    #val_loss = ValidationLoss(cfg)
+    #trainer.register_hooks([val_loss])
     # swap the order of PeriodicWriter and ValidationLossl
-    trainer._hooks = trainer._hooks[:-2] + trainer._hooks[-2:][::-1]
+    #trainer._hooks = trainer._hooks[:-2] + trainer._hooks[-2:][::-1]
     trainer.resume_or_load(resume=False)
     trainer.train()
 
