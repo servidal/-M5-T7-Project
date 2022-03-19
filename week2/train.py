@@ -90,7 +90,7 @@ if __name__ == "__main__":
     
     for d in ['train', 'test']:
         DatasetCatalog.register("kitti_mots_" + d, lambda d= d: get_dataset_dicts(DATASET_PATH, d))
-        MetadataCatalog.get("kitti_mots_" + d).set(things_classes=CLASSES)
+        MetadataCatalog.get("kitti_mots_" + d).set(thing_classes=CLASSES)
 
     dataset="kitti_mots_"
 
