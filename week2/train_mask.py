@@ -71,7 +71,7 @@ if __name__ == "__main__":
     cfg.DATASETS.TRAIN = (dataset + 'train',)
     cfg.DATASETS.TEST = (dataset + 'test',)
     cfg.DATALOADER.NUM_WORKERS = 2
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(2)
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2
     cfg.SOLVER.IMS_PER_BATCH = 2
 
     cfg.SOLVER.BASE_LR = args.lr
