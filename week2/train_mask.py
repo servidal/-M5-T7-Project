@@ -53,7 +53,7 @@ class ValidationLoss(HookBase):
 def parse_args(args=sys.argv[1:]):
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--model', type=str, default='faster_rcnn_X_101_32x8d_FPN_3x.yaml',
+    parser.add_argument('--model', type=str, default='faster_rcnn_R_50_FPN_3x',
                         help='pre-trained model to run inference on KITTI-MOTS dataset')
 
     parser.add_argument('--lr', type=float, default=0.0001,
