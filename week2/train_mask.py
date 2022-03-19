@@ -20,6 +20,8 @@ from detectron2.engine import DefaultTrainer, HookBase
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
 from detectron2.data import build_detection_test_loader
 
+from dataset import get_dataset_dicts
+
 import argparse
 
 from detectron2.modeling import build_model
