@@ -2,7 +2,7 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 
-experiment_folder = './results/faster_rcnn_R_50_FPN_3x/lr_0_001_iter_5000_batch_512/0/'  #change path
+experiment_folder = 'results/mask_rcnn_R_50_FPN_3x/lr_0_001_iter_2000_batch_32/'  #change path
 
 def load_json_arr(json_path):
     lines = []
