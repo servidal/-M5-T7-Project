@@ -60,7 +60,7 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--model', type=str, default='mask_rcnn_R_50_FPN_3x',
                         help='pre-trained model to run inference on KITTI-MOTS dataset')
 
-    parser.add_argument('--lr', type=float, default=0.0001,
+    parser.add_argument('--lr', type=float, default=0.001,
                         help='learning rate')
 
     parser.add_argument('--iter', type=int, default=2000,
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     cfg.DATASETS.TRAIN = (dataset + 'train',)
     cfg.DATASETS.TEST = (dataset + 'test',)
     cfg.DATALOADER.NUM_WORKERS = 2
-    cfg.TEST.EVAL_PERIOD = 100
+    cfg.TEST.EVAL_PERIOD = 0
     cfg.SOLVER.IMS_PER_BATCH = 2
     cfg.SOLVER.BASE_LR = args.lr
     cfg.SOLVER.MAX_ITER = args.iter
