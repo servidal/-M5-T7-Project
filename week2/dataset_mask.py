@@ -53,7 +53,7 @@ def get_dataset_dicts(dataset_path, type_seq):
                 height,width = cv2.imread(filename).shape[:2]
                 
                 print("filename path:", filename)
-                gt_filename = os.path.join(gt_path, train_imgC, image_path.split('.')[0]+'.png')
+                gt_filename = os.path.join(gt_path, train_img, image_path.split('.')[0]+'.png')
                 print("gt path:", gt_filename)
 
                 gt = np.asarray(Image.open(gt_filename))
