@@ -1,13 +1,14 @@
 import os
 import cv2
 import numpy as np
-
+import detectron2
 from detectron2.data import MetadataCatalog, DatasetCatalog
 from detectron2.structures import BoxMode
 from PIL import Image
 import mots_utils
 
-DATASET_PATH = '/home/group07/M5-T7-Project/KITTI-MOTS'
+DATASET_PATH = 'C:/Users/servi/Desktop/Computer Vision Master/M5. Visual Recognition/Project/week2/KITTI-MOTS'
+#DATASET_PATH = '/home/group07/M5-T7-Project/KITTI-MOTS'
 
 TRAINING_SEQ = ["0011","0017","0009","0020","0019","0005","0000","0015","0001", "0004" , "0003" , "0012"]
 TESTING_SEQ = ["0002","0006" ,"0007" ,"0008" ,"0010" ,"0013" ,"0014" ,"0016" ,"0018"]
@@ -45,9 +46,8 @@ def get_dataset_dicts(dataset_path, type_seq):
 
                 filename = os.path.join(train_folder, image_path)
                 height,width = cv2.imread(filename).shape[:2]
-                
-                gt_filename = os.path.join(train_folder, image_path.split('.')[0]+'.png')    
-                gt = np.asarray(Image.open(gt_filename))
+
+                gt = np.asarray(Image.open(filename))
 
                 record["file_name"] = filename
                 record["image_id"] = filename
@@ -55,10 +55,12 @@ def get_dataset_dicts(dataset_path, type_seq):
                 record["width"] = width
 
                 patterns = list(np.unique(gt))[1:-1]
+                #print("Patterns:", patterns)
+                #print("GT:", gt)
                 objs = []
                 for pattern in patterns:
                     coords = np.argwhere(gt==pattern)
-
+                    print("Coord:", coords)    
                     x0, y0 = coords.min(axis=0)
                     x1, y1 = coords.max(axis=0)
 
