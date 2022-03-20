@@ -46,7 +46,7 @@ def get_dataset_dicts(dataset_path, type_seq):
                 filename = os.path.join(train_folder, image_path)
                 height,width = cv2.imread(filename).shape[:2]
 
-                gt = np.asarray(Image.open(filename))
+                gt = np.asarray(Image.open(image_path))
 
                 record["file_name"] = filename
                 record["image_id"] = filename
