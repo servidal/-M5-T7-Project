@@ -15,7 +15,8 @@ gt_path = 'C:/Users/servi/Desktop/Computer Vision Master/M5. Visual Recognition/
 TRAINING_SEQ = ["0011","0017","0009","0020","0019","0005","0000","0015","0001", "0004" , "0003" , "0012"]
 TESTING_SEQ = ["0002","0006" ,"0007" ,"0008" ,"0010" ,"0013" ,"0014" ,"0016" ,"0018"]
 CLASSES = ['Cars', 'Pedestrian']
-CLASSES_MAP = {1:2,2:0}
+#CLASSES_MAP = {1:2,2:0}
+CLASSES_MAP = {1:0,2:1}
 
 def get_dataset_files(dataset_path, type_seq):
     sequence_map = {
