@@ -31,6 +31,7 @@ model_path = 'COCO-Detection/' + model_ref + '.yaml'
 results_dir = '/home/group07/M5-T7-Project/week2/results/'
 DATASET_PATH = '/home/group07/M5-T7-Project/KITTI-MOTS'
 CLASSES = ['Cars', 'Pedestrian']
+DATASET_NAME="kitti_mots_"
 print(model_path)
 
 # Run a pre-trained detectron2 model
@@ -44,26 +45,23 @@ predictor = DefaultPredictor(cfg)
 
 cfg.OUTPUT_DIR = results_dir
 
-
-for d in ['train', 'test']:
-    DatasetCatalog.register("kitti_mots_" + d, lambda d= d: get_dataset_dicts(DATASET_PATH, d))
-    MetadataCatalog.get("kitti_mots_" + d).set(thing_classes=CLASSES)
-
-
-dataset="kitti_mots_"
-
 #metadata = MetadataCatalog.get(dataset + 'train')
 
-cfg.DATASETS.TRAIN = (dataset + 'train',)
-cfg.DATASETS.TEST = (dataset + 'test',)
+for d in ['train', 'test']:
+    DatasetCatalog.register(DATASET_NAME + d, lambda d= d: get_dataset_dicts(DATASET_PATH, d))
+    MetadataCatalog.get(DATASET_NAME + d).set(thing_classes=CLASSES)
+
+
+cfg.DATASETS.TRAIN = (DATASET_NAME + 'train',)
+cfg.DATASETS.TEST = (DATASET_NAME + 'test',)
 cfg.DATALOADER.NUM_WORKERS = 2
 cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(CLASSES)
 
 trainer = DefaultTrainer(cfg)
 trainer.resume_or_load(resume=False)
 
-evaluator = COCOEvaluator(dataset + 'test', cfg, False, output_dir=cfg.OUTPUT_DIR)
-val_loader = build_detection_test_loader(cfg, dataset + 'test')
+evaluator = COCOEvaluator(DATASET_NAME + 'test', cfg, False, output_dir=cfg.OUTPUT_DIR)
+val_loader = build_detection_test_loader(cfg, DATASET_NAME + 'test')
 print('Evaluation with model ', model_ref)
 print(inference_on_dataset(trainer.model, val_loader, evaluator))
 
