@@ -21,7 +21,7 @@ from detectron2.engine import DefaultTrainer
 from detectron2.evaluation import COCOEvaluator, inference_on_dataset
 from detectron2.data import build_detection_test_loader
 
-from dataset import get_dataset_dicts
+from dataset_mask import get_dataset_dicts
 
 from detectron2.modeling import build_model
 from detectron2.checkpoint import DetectionCheckpointer
