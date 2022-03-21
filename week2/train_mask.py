@@ -60,13 +60,13 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--model', type=str, default='mask_rcnn_R_50_FPN_3x',
                         help='pre-trained model to run inference on KITTI-MOTS dataset')
 
-    parser.add_argument('--lr', type=float, default=0.001,
+    parser.add_argument('--lr', type=float, default=0.01,
                         help='learning rate')
 
     parser.add_argument('--iter', type=int, default=2000,
                         help='max iterations (epochs)')
 
-    parser.add_argument('--batch', type=int, default=128,
+    parser.add_argument('--batch', type=int, default=64,
                         help='batch size')
 
     return parser.parse_args(args)
