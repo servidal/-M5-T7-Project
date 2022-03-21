@@ -66,7 +66,7 @@ def parse_args(args=sys.argv[1:]):
     parser.add_argument('--iter', type=int, default=2000,
                         help='max iterations (epochs)')
 
-    parser.add_argument('--batch', type=int, default=32,
+    parser.add_argument('--batch', type=int, default=64,
                         help='batch size')
 
     return parser.parse_args(args)
