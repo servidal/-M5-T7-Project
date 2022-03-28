@@ -168,7 +168,7 @@ Project Link: [https://github.com/servidal/M5-T7-Project](https://github.com/ser
 <!-- Slides -->
 ### Reports
 
-* [Report 1](https://www.overleaf.com/8224511773dpvrckvjbwzh)
+* [Report 1](https://www.overleaf.com/read/ckhcqxmppgnj)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
