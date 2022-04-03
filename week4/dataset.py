@@ -55,13 +55,11 @@ def get_dataloaders(dataset_dir, input_size, batch_size, kwargs):
     siamese_test_dataset = SiameseDataset(mit_dataset_test, False)
 
     # prepare dataloaders
-    train_loade_siamese = DataLoader(siamese_train_dataset, batch_size = batch_size, shuffle=True, **kwargs)
-    test_loader_siamese = DataLoader(siamese_test_dataset, batch_size = batch_size, shuffle=False, **kwargs)
-    
+        
     train_loader = DataLoader(mit_dataset_train, batch_size=batch_size, shuffle=True, **kwargs)
     test_loader = DataLoader(mit_dataset_test, batch_size=batch_size, shuffle=False, **kwargs)
 
-    return train_loade_siamese, test_loader_siamese, train_loader, test_loader
+    return train_loader, test_loader
 
 
 class MitDataset(Dataset):
@@ -115,7 +113,7 @@ class MitDataset(Dataset):
         if self.target_transform is not None:
             target = self.target_transform(target)
         #img = torch.permute(img, (2,0,1))
-
+        
         return img, target
 
     def __len__(self) -> int:
