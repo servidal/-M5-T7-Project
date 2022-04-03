@@ -46,35 +46,22 @@ def train_epoch(train_loader, model, loss_fn, optimizer, cuda, log_interval, met
     total_loss = 0
 
     for batch_idx, (data, target) in enumerate(train_loader):
-        target = target if len(target) > 0 else None
-        if not type(data) in (tuple, list):
-            data = (data,)
-        if cuda:
-            data = tuple(d.cuda() for d in data)
-            if target is not None:
-                target = target.cuda()
+        if cuda:           
+            data = data.cuda()
+            target = target.cuda()
+            
 
+        optimizer.zero_grad()        
+        outputs = model(data)
 
-        optimizer.zero_grad()
-        outputs = model(*data)
-
-        if type(outputs) not in (tuple, list):
-            outputs = (outputs,)
-
-        loss_inputs = outputs
-        if target is not None:
-            target = (target,)
-            loss_inputs += target
-
-        loss_outputs = loss_fn(*loss_inputs)
-        loss = loss_outputs[0] if type(loss_outputs) in (tuple, list) else loss_outputs
+        loss = loss_fn(outputs,target)
         losses.append(loss.item())
         total_loss += loss.item()
         loss.backward()
         optimizer.step()
 
         for metric in metrics:
-            metric(outputs, target, loss_outputs)
+            metric(outputs, target, loss)
 
         if batch_idx % log_interval == 0:
             message = 'Train: [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
