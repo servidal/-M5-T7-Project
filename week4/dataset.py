@@ -10,8 +10,7 @@ import torch
 import cv2
 
 
-
-def get_dataloaders(dataset_dir, input_size, batch_size, kwargs):
+def get_dataloaders(dataset_dir, input_size, batch_size, num_workers=4):
     """
     Get train and test dataloaders from the dataset
     """
@@ -35,8 +34,8 @@ def get_dataloaders(dataset_dir, input_size, batch_size, kwargs):
     #data transforms for trainig and testing
     train_transform = transforms.Compose([
                         transforms.RandomHorizontalFlip(p=0.5),
-                        #transforms.RandomRotation(degrees=20),
-                        transforms.RandomAffine(degrees=20, translate=(0, 0.3)),
+                        transforms.RandomRotation(degrees=20),
+                        #transforms.RandomAffine(translate=(0, 0.3)),
                         transforms.Resize((input_size, input_size)),
                         transforms.ToTensor(),
                         transforms.Normalize(mean = mean, std = std)])
@@ -47,21 +46,16 @@ def get_dataloaders(dataset_dir, input_size, batch_size, kwargs):
                         transforms.Normalize(mean = mean, std = std)])    
 
 
-    mit_dataset_train = MitDataset(os.path.join(dataset_dir,'train'),  True, train_transform)
-    mit_dataset_test = MitDataset(os.path.join(dataset_dir,'test'),  False, test_transform)
-
-
-    siamese_train_dataset = SiameseDataset(mit_dataset_train, True) # Returns pairs of images and target same/different
-    siamese_test_dataset = SiameseDataset(mit_dataset_test, False)
+     # prepare datasets
+    train_data = MitDataset(dataset_dir+'train', True, transform = train_transform)
+    test_data = MitDataset(dataset_dir+'test', False, transform = test_transform)
 
     # prepare dataloaders
-    train_loade_siamese = DataLoader(siamese_train_dataset, batch_size = batch_size, shuffle=True, **kwargs)
-    test_loader_siamese = DataLoader(siamese_test_dataset, batch_size = batch_size, shuffle=False, **kwargs)
-    
-    train_loader = DataLoader(mit_dataset_train, batch_size=batch_size, shuffle=True, **kwargs)
-    test_loader = DataLoader(mit_dataset_test, batch_size=batch_size, shuffle=False, **kwargs)
+    train_loader = DataLoader(train_data, batch_size = batch_size, shuffle=True, num_workers=num_workers)
+    test_loader = DataLoader(test_data, batch_size = batch_size, shuffle=False, num_workers=num_workers)
 
-    return train_loade_siamese, test_loader_siamese, train_loader, test_loader
+    return train_loader, test_loader,train_data,test_data
+
 
 
 class MitDataset(Dataset):

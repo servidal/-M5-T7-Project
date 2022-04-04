@@ -1,6 +1,59 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
+class Net(nn.Module):
+    def __init__(self, in_channels=3, kernel_size=3, padding="same"):
+        super(Net, self).__init__()
+        ## Define layers of a CNN
+        self.conv1_1 = nn.Conv2d(in_channels, 32, kernel_size, padding=padding)
+        self.conv1_2 = nn.Conv2d(32, 32, kernel_size, padding=padding)
+        self.bn1_1 = nn.BatchNorm2d(32)
+        self.bn1_2 = nn.BatchNorm2d(32)
+        
+        self.conv2_1 = nn.Conv2d(32, 64, kernel_size, padding=padding)
+        self.conv2_2 = nn.Conv2d(64, 64, kernel_size, padding=padding)
+        self.bn2_1 = nn.BatchNorm2d(64)
+        self.bn2_2 = nn.BatchNorm2d(64)
+        
+        self.max_pool = nn.MaxPool2d(2,2)
+        
+        self.dropout = nn.Dropout(0.3)
+
+        self.global_avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.flat = nn.Flatten()
+    
+        self.fc1 = nn.Linear(64, 8)
+        
+        #self.logmax = nn.LogSoftmax(dim=1)216, 128)
+
+    def forward(self, x):
+        ## Define forward behavior
+        x = self.conv1_1(x)
+        x = F.elu(self.bn1_1(x))
+        x = self.conv1_2(x)
+        x = F.elu(self.bn1_2(x))
+        x = self.max_pool(x)
+
+        x = self.conv2_1(x)
+        x = F.elu(self.bn2_1(x))
+        x = self.conv2_2(x)
+        x = F.elu(self.bn2_2(x))
+        x = self.max_pool(x)
+        x = self.dropout(x)
+
+        x = self.global_avg_pool(x)
+        x = self.flat(x)
+
+
+        #x = x.view(-1, 64)
+
+        x = self.fc1(x)
+        
+        return x
+
+    def get_embedding(self, x):
+        return self.forward(x)
+
 
 class EmbeddingNet(nn.Module):
     def __init__(self):
