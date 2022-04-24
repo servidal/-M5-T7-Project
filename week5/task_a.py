@@ -39,26 +39,23 @@ parser = ArgumentParser(
 parser.add_argument("num_epochs",
                     type=int,
                     default=10,
-                    help="Number of epochs")
+                    )
 parser.add_argument("lr",
                     type=float,
-                    help="learning rate")
+                    )
 parser.add_argument("weight_decay",
                     type=float,
                     default=1e-3,
-                    help="weight decay")
+                    )
 parser.add_argument("batch_size",
                     type=int,
                     default=128,
-                    help="batch size")
+                    )
 parser.add_argument("margin",
                     type=float,
                     default=1,
-                    help="change margin for triplet loss")
-parser.add_argument("grad_clip",
-                    type=int,
-                    default=0,
-                    help="grad_clip")
+                    )
+
 
 args = parser.parse_args()
 
@@ -102,8 +99,7 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             total_loss += loss
-            if args.grad_clip > 0:
-                clip_grad_norm_(params, args.grad_clip)
+            
             optimizer.step()
 
         print(f'epoch: {epoch}\titeration: {i}\tLoss: {total_loss}')

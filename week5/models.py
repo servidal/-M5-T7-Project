@@ -9,7 +9,7 @@ class ImgEncoder(Module):
     def __init__(self, dim=4096,embedding_size = 300):
         super(ImgEncoder, self).__init__()
         self.fc1 = nn.Sequential(nn.Linear(dim, 2048),
-                                 nn.PReLU(),
+                                 nn.ReLU(),
                                  nn.Linear(2048, embedding_size))
         
         self.activation = ReLU()
@@ -26,9 +26,9 @@ class TextEncoder(Module):
     def __init__(self, embedding_size = 300):
         super(TextEncoder, self).__init__()
         self.fc1 = nn.Sequential(nn.Linear(embedding_size, 1024),
-                                 nn.PReLU(),
+                                 nn.ReLU(),
                                  nn.Linear(1024, 2048),
-                                 nn.PReLU(),
+                                 nn.ReLU(),
                                  nn.Linear(2048, embedding_size)
                                  )        
     
