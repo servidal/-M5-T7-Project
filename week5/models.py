@@ -3,43 +3,38 @@ import numpy as np
 import torch
 from torchvision import models
 
+import torch.nn as nn
 
 class ImgEncoder(Module):
-    def __init__(self, dim=4096,embedding_size = 1000):
+    def __init__(self, dim=4096,embedding_size = 300):
         super(ImgEncoder, self).__init__()
-
-        self.linear1 = Linear(dim, embedding_size)
+        self.fc1 = nn.Sequential(nn.Linear(dim, 2048),
+                                 nn.PReLU(),
+                                 nn.Linear(2048, embedding_size))
+        
         self.activation = ReLU()
-        self.init_weights()
+        #self.init_weights()
 
-    def init_weights(self):
-        # Linear
-        init.kaiming_uniform_(self.linear1.weight, mode='fan_in', nonlinearity='relu')
+    
     
     def forward(self, x):
-        x = self.activation(x)
-        x = self.linear1(x)
-        x = x / x.pow(2).sum(1, keepdim=True).sqrt()
-        return x
+        out = self.fc1(x)
+        return out
 
 
 class TextEncoder(Module):
-    def __init__(self, embedding_size = 1000):
+    def __init__(self, embedding_size = 300):
         super(TextEncoder, self).__init__()
-        self.linear1 = Linear(300, embedding_size)
-        self.activation = ReLU()
-
-        self.init_weights()
-
-    def init_weights(self):
-        # Linear
-        init.kaiming_uniform_(self.linear1.weight, mode='fan_in', nonlinearity='relu')
+        self.fc1 = nn.Sequential(nn.Linear(embedding_size, 1024),
+                                 nn.PReLU(),
+                                 nn.Linear(1024, 2048),
+                                 nn.PReLU(),
+                                 nn.Linear(2048, embedding_size)
+                                 )        
     
     def forward(self, x):
-        x = self.activation(x)
-        x = self.linear1(x)
-        x = x / x.pow(2).sum(1, keepdim=True).sqrt()
-        return x
+        out = self.fc1(x)
+        return out
 
 
 class LinearEncoder(Module):

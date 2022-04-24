@@ -7,10 +7,30 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from models import ImgEncoder, TextEncoder
 from dataset import Img2TextDataset
 import os
-
+dataset_dir = '/home/marcelo/Documents/Master_CV/M5/M5-T7-Project/week5/data/'
 img_features_file = '/home/marcelo/Documents/Master_CV/M5/M5-T7-Project/week5/data/vgg_feats.mat'
 text_features_file = '/home/marcelo/Documents/Master_CV/M5/M5-T7-Project/week5/data/fasttext_feats.npy'
 output_path = "./results/task_a/"
+
+
+import torch.nn as nn
+import torch.nn.functional as F
+
+class TripletLoss(nn.Module):
+    """
+    Triplet loss
+    Takes embeddings of an anchor sample, a positive sample and a negative sample
+    """
+
+    def __init__(self, margin):
+        super(TripletLoss, self).__init__()
+        self.margin = margin
+
+    def forward(self, anchor, positive, negative, size_average=True):
+        distance_positive = (anchor - positive).pow(2).sum(1)  # .pow(.5)
+        distance_negative = (anchor - negative).pow(2).sum(1)  # .pow(.5)
+        losses = F.relu(distance_positive - distance_negative + self.margin)
+        return losses.mean() if size_average else losses.sum()
 
 parser = ArgumentParser(
         #description='Torch-based image classification system',
@@ -33,7 +53,7 @@ parser.add_argument("batch_size",
                     help="batch size")
 parser.add_argument("margin",
                     type=float,
-                    default=1e-1,
+                    default=1,
                     help="change margin for triplet loss")
 parser.add_argument("grad_clip",
                     type=int,
@@ -44,9 +64,10 @@ args = parser.parse_args()
 
 if __name__ == '__main__':
 
-    loss_func = nn.TripletMarginLoss(args.margin, p=2)
+    #loss_func = nn.TripletMarginLoss(args.margin, p=2)
+    loss_func = TripletLoss(args.margin)
 
-    train_set = Img2TextDataset(img_features_file, text_features_file,'train')
+    train_set = Img2TextDataset(img_features_file, text_features_file,'train',dataset_dir)
     train_dataloader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True, num_workers=4)
 
     # TEXT & IMGS MODELS
@@ -54,10 +75,8 @@ if __name__ == '__main__':
     text_model = TextEncoder()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     image_model.to(device)
-    text_model.to(device)
-    # init weights
-    image_model.init_weights()
-    text_model.init_weights()
+    text_model.to(device)    # init weights    
+    
 
     # optimizer
     params = list(image_model.parameters())
@@ -89,7 +108,7 @@ if __name__ == '__main__':
 
         print(f'epoch: {epoch}\titeration: {i}\tLoss: {total_loss}')
     
-    state_dict = [image_model.state_dict(), text_model.state_dict()]
     model_folder = str(output_path + "/models")
     os.makedirs(model_folder, exist_ok=True)
-    torch.save(state_dict, '{0}/Image2Text_weights.pth'.format(model_folder))
+    torch.save(image_model.state_dict(), '{0}/Image2Text_image.pth'.format(model_folder))
+    torch.save(text_model.state_dict(), '{0}/Image2Text_text.pth'.format(model_folder))
