@@ -170,7 +170,7 @@ Project Link: [https://github.com/servidal/M5-T7-Project](https://github.com/ser
 ### Reports
 
 * [Report 1](https://www.overleaf.com/read/ckhcqxmppgnj)
-* [Report 2](https://www.overleaf.com/read/ttfxtytmyxmy)
+* [Report 2](https://es.overleaf.com/read/vwmmwvfyqdhh)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
